@@ -1,0 +1,399 @@
+/* ==========================================
+   1. ESTILOS GLOBAIS E RESET
+   Define as cores de fundo, fonte e remove margens padrão
+========================================== */
+body {
+    margin: 0; /* Remove as margens em branco ao redor da página */
+    font-family: Arial, sans-serif; /* Fonte padrão do sistema */
+    background: #0f0f0f; /* Cor de fundo principal (preto/cinza muito escuro) */
+    color: #fff; /* Cor do texto padrão (branco) */
+}
+
+/* Container principal que envolve toda a tela */
+.container {
+    display: flex; /* Coloca a sidebar e o conteúdo lado a lado */
+    height: 100vh; /* Ocupa 100% da altura da tela (viewport height) */
+}
+
+
+/* ==========================================
+   2. BARRA LATERAL (SIDEBAR)
+   Estilos do menu esquerdo e perfil do usuário
+========================================== */
+.sidebar {
+    height: 800px;
+    width: 340px; /* Largura fixa da barra lateral */
+    background-color: #1a1a1a; /* Cor de fundo um pouco mais clara que o body */
+    color: #fff;
+    display: flex;
+    flex-direction: column; /* Organiza os itens de cima para baixo */
+}
+
+/* Área da logo da pizzaria */
+.sidebar-logo {
+    display: flex;
+    align-items: center; /* Alinha o ícone e o texto verticalmente no centro */
+    gap: 10px; /* Espaço entre o ícone e os textos */
+    padding: 20px 16px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08); /* Linha sutil separadora */
+}
+
+/* Ícone da fatia de pizza */
+.sidebar-logo-icon {
+    width: 56px;
+    height: 56px;
+    background: #c0392b; /* Vermelho escuro/bordo */
+    border-radius: 8px; /* Bordas arredondadas */
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centraliza o emoji dentro do quadrado */
+    font-size: 18px;
+    flex-shrink: 0; /* Impede que o ícone seja esmagado se faltar espaço */
+}
+
+/* Nome da pizzaria */
+.sidebar-logo-name {
+    font-size: 23px;
+    font-weight: 500;
+    color: #fff;
+}
+
+/* Subtítulo da logo ("Gerenciador de pedidos") */
+.sidebar-logo-sub {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.4);
+    margin-top: 2px;
+}
+
+/* Texto "MENU" pequenininho acima dos botões */
+.menu-label {
+    display: block;
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 0.08em; /* Espaçamento entre as letras */
+    padding: 16px 16px 6px;
+}
+
+/* Botões de navegação do menu */
+.menu {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: calc(100% - 16px);
+    margin: 8px 8px;
+    padding: 14px 12px;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 13px;
+    cursor: pointer; /* Muda a setinha do mouse para a mãozinha */
+    text-align: left;
+}
+
+/* Efeito quando passa o mouse por cima do botão do menu */
+.menu:hover {
+    background: rgba(255, 255, 255, 0.06); /* Fundo levemente visível */
+    color: rgba(255, 255, 255, 0.85); /* Deixa o texto mais brilhante */
+}
+
+/* Estilo do menu quando ele está selecionado/ativo */
+.menu.active {
+    background: #c0392b; /* Fundo vermelho */
+    color: #fff; /* Texto branco puro */
+}
+
+/* Rodapé da sidebar (área do atendente) */
+.sidebar-bottom {
+    margin-top: auto; /* Empurra essa div lá para o final da tela */
+    padding: 14px 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08); /* Linha sutil no topo */
+}
+
+.sidebar-user {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Círculo com as iniciais do atendente */
+.user-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%; /* Faz o quadrado virar um círculo perfeito */
+    background: #c0392b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    color: #fff;
+    font-weight: 500;
+}
+
+.user-name {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+
+/* ==========================================
+   3. CONTEÚDO PRINCIPAL E CARTÕES
+========================================== */
+/* ==========================================
+   3. CONTEÚDO PRINCIPAL E CARTÕES
+========================================== */
+.content {
+    flex: 1;
+    padding: 20px 30px 80px 30px; 
+}
+
+.top {
+    height: 36px;
+    display: flex;
+    align-items: baseline; /* Alinha a base do texto do H1 com a base da data */
+    gap: 30px; /* Dá um espaçamento bacana entre o título e a data */
+    margin-bottom: 20px; 
+}
+
+.top h1 {
+    margin: 0; 
+    font-size: 24px; 
+    font-weight: bold;
+}
+
+/* Nova classe para formatar a data */
+.data-atual {
+    font-size: 14px;
+    color: #a0a0a0; /* Um tom de cinza claro igual ao da imagem */
+    font-weight: normal;
+}
+
+.card {
+    background: #242424; /* Fundo idêntico ao da imagem */
+    padding: 25px;
+    border-radius: 10px; 
+    margin-bottom: 20px; 
+}
+
+.card h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+/* ==========================================
+   4. FORMULÁRIOS, LABELS E INPUTS
+========================================== */
+.row {
+    display: flex;
+    gap: 15px; 
+    margin-bottom: 15px;
+}
+
+/* Caixa que agrupa a Label e o Input */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Tamanhos proporcionais para as colunas */
+.flex-1 { flex: 1; }
+.flex-2 { flex: 2; }
+.flex-full { width: 100%; }
+
+.form-group label {
+    font-size: 11px;
+    font-weight: bold;
+    color: #e0e0e0; /* Cinza clarinho */
+}
+
+input, select, textarea {
+    padding: 10px 12px;
+    border-radius: 5px;
+    border: 1px solid #444; /* Borda sutil como na imagem */
+    background: #1c1c1c; /* Fundo mais escuro no input */
+    color: #fff; 
+    font-family: inherit; 
+    box-sizing: border-box; /* Garante que o padding não quebre a largura */
+    width: 100%;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #777;
+}
+
+/* ==========================================
+   5. ITENS DO PEDIDO (ALINHAMENTOS E LISTA)
+========================================== */
+/* ==========================================
+   5. ITENS DO PEDIDO (ALINHAMENTOS E LISTA)
+========================================== */
+.header-itens {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08); /* Linha divisória */
+}
+
+.header-itens h3 { margin: 0; }
+
+.pedido-item {
+    display: flex;
+    gap: 15px; /* Aumentei um pouco o espaçamento entre os campos */
+    align-items: center; /* Alinha perfeitamente os inputs e botões no centro */
+    margin-bottom: 15px;
+}
+
+/* Formatação do texto de Subtotal do item */
+.subtotal-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.subtotal-text {
+    font-size: 15px; /* Fonte um pouquinho maior para destaque */
+    font-weight: bold;
+    color: #fff;
+    white-space: nowrap; /* FORÇA o "R$" e o número a ficarem na mesma linha sempre */
+}
+
+/* ==========================================
+   6. BOTÕES
+========================================== */
+.btn {
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 13px;
+    transition: all 0.2s;
+}
+
+/* Estilo do botão "Adicionar item" (Vazado com borda) */
+.btn-outline {
+    background: transparent;
+    border: 1px solid #666;
+    color: #fff;
+}
+.btn-outline:hover { background: rgba(255, 255, 255, 0.05); }
+
+/* Botão de excluir item ("x") */
+.btn-remove {
+    background: transparent;
+    border: 1px solid #555;
+    color: #fff;
+    border-radius: 5px;
+    width: 36px;
+    height: 36px; /* Mesma altura dos inputs */
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn-remove:hover { background: #e74c3c; border-color: #e74c3c; }
+
+/* ==========================================
+   7. RODAPÉ DOS ITENS (TOTAL E SALVAR)
+========================================== */
+.footer-itens {
+    display: flex;
+    justify-content: space-between; /* Total na esquerda, botões na direita */
+    align-items: flex-end; /* Alinha todos pela parte de baixo */
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08); /* Linha divisória fina */
+}
+
+/* Bloco do Total do pedido */
+.total-block {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.total-label {
+    font-size: 12px;
+    font-weight: bold;
+    color: #ccc;
+}
+
+.total-valor {
+    font-size: 24px; /* Número grande igual da imagem */
+    font-weight: bold;
+    color: #fff;
+}
+
+/* Botões de Ação (Cancelar e Salvar) */
+.actions-final {
+    display: flex;
+    gap: 12px;
+}
+
+.actions-final button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    background: transparent;
+    color: #fff;
+}
+
+/* Botões vazados iguais da imagem */
+.actions-final .cancel { border: 1px solid #555; }
+.actions-final .cancel:hover { background: rgba(255,255,255,0.05); }
+
+.actions-final .save { border: 1px solid #777; }
+.actions-final .save:hover { background: rgba(255,255,255,0.1); }
+
+/* ==========================================
+   NOTIFICAÇÕES FLUTUANTES (TOASTS)
+========================================== */
+.notificacao {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 16px 24px;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    z-index: 9999;
+    animation: deslizarEntrada 0.3s ease-out forwards;
+}
+
+/* Cores das notificações */
+.notificacao.erro { 
+    background-color: #242424; 
+    border-left: 6px solid #e74c3c; 
+}
+.notificacao.sucesso { 
+    background-color: #242424; 
+    border-left: 6px solid #2ecc71; 
+}
+
+.notificacao-icon { font-size: 18px; }
+
+/* Animação para esconder */
+.notificacao.ocultar {
+    animation: deslizarSaida 0.3s ease-in forwards;
+}
+
+@keyframes deslizarEntrada {
+    from { transform: translateX(120%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes deslizarSaida {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(120%); opacity: 0; }
+}

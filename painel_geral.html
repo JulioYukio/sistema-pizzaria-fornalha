@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>A Fornalha - Painel Geral</title>
+    <link rel="stylesheet" href="painel_geral.css">
+</head>
+<body>
+
+<div class="container">
+
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <div class="sidebar-logo-icon">🍕</div>
+            <div>
+                <div class="sidebar-logo-name">A Fornalha Pizzaria</div>
+                <div class="sidebar-logo-sub">Gerenciador de pedidos</div>
+            </div>
+        </div>
+
+        <nav>
+            <span class="menu-label">MENU</span>
+            
+            <button type="button" class="menu active" onclick="window.location.href='index.html'">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="1" width="6" height="6" rx="1"/><rect x="1" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/>
+                </svg> Painel geral
+            </button>
+            
+            <button type="button" class="menu" onclick="window.location.href='pedidos_do_dia.html'">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M2 4h12M2 8h12M2 12h7"/>
+                </svg> Pedidos do dia
+            </button>
+            
+            <button type="button" class="menu" onclick="window.location.href='novo_pedido.html'">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <rect x="2" y="2" width="12" height="12" rx="1.5"/><path d="M8 5v6M5 8h6"/>
+                </svg> Novo pedido
+            </button>
+            
+            <button type="button" class="menu" onclick="window.location.href='historico.html'">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M2 12L5 8l3 3 3-5 3 2"/>
+                </svg> Histórico e relatórios
+            </button>
+        </nav>
+    </aside>
+
+    <main class="content">
+
+        <header class="top">
+            <div class="top-title">
+                <h1>Painel de Comando</h1>
+                <span class="data-atual" id="data-atual">Carregando...</span>
+            </div>
+        </header>
+
+        <section class="shortcuts-grid">
+            <button class="shortcut-btn btn-novo" onclick="window.location.href='novo_pedido.html'">
+                <div class="shortcut-icon">+</div>
+                <div class="shortcut-text">NOVO PEDIDO</div>
+            </button>
+            
+            <button class="shortcut-btn btn-andamento" onclick="window.location.href='pedidos_do_dia.html'">
+                <div class="shortcut-icon">🛵</div>
+                <div class="shortcut-text">VER PEDIDOS EM ANDAMENTO</div>
+            </button>
+            
+            <button class="shortcut-btn btn-fechar" onclick="fecharCaixa()">
+                <div class="shortcut-icon">🔒</div>
+                <div class="shortcut-text">FECHAR CAIXA</div>
+            </button>
+        </section>
+
+        <div class="dashboard-grid">
+            <section class="card">
+                <div class="card-header">
+                    <h3>🎯 Termômetro do Turno</h3>
+                    <span class="meta-label">Meta de hoje: <strong id="meta-valor">R$ 1.500,00</strong></span>
+                </div>
+                
+                <div class="termometro-display">
+                    <span class="faturamento-atual" id="faturamento-atual">R$ 0,00</span>
+                </div>
+                
+                <div class="progress-container">
+                    <div class="progress-bar" id="progress-bar" style="width: 0%;"></div>
+                </div>
+                
+                <p class="termometro-texto" id="termometro-texto">Carregando dados financeiros...</p>
+            </section>
+
+            <section class="card">
+                <h3>🔥 Status da Cozinha</h3>
+                <div class="cozinha-display">
+                    <div class="cozinha-numero" id="pedidos-fila">0</div>
+                    <div class="cozinha-sub">pedidos na fila de preparo</div>
+                </div>
+                
+                <div class="cozinha-footer">
+                    <div class="tempo-label">Tempo médio de espera atual:</div>
+                    <div class="tempo-valor" id="tempo-espera">0 min</div>
+                </div>
+            </section>
+        </div>
+
+        <section class="card card-alertas">
+            <h3>⚠️ Alertas do Sistema</h3>
+            <div class="alertas-container" id="lista-alertas">
+                <div style="color: #888; font-size: 14px;">Verificando o sistema...</div>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<script src="cardapio.js"></script>
+<script src="painel_geral.js"></script>
+</body>
+</html>

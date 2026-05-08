@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>A Fornalha Pizzaria - Novo Pedido</title>
+    <link rel="stylesheet" href="novo_pedido.css">
+</head>
+<body>
+
+<div class="container">
+
+    <aside class="sidebar">
+
+        <div class="sidebar-logo">
+            <div class="sidebar-logo-icon">🍕</div>
+            <div>
+                <div class="sidebar-logo-name">A Fornalha Pizzaria</div>
+                <div class="sidebar-logo-sub">Gerenciador de pedidos</div>
+            </div>
+        </div>
+
+        <nav>
+            <span class="menu-label">MENU</span>
+
+            <button type="button" class="menu" onclick="window.location.href='painel_geral.html'">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="1" width="6" height="6" rx="1"/><rect x="1" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/>
+                </svg> Painel geral
+            </button>
+
+            <button type="button" class="menu" onclick="window.location.href='pedidos_do_dia.html'">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M2 4h12M2 8h12M2 12h7"/>
+                </svg>
+                Pedidos do dia
+            </button>
+
+            <button type="button" class="menu active" onclick="window.location.href='novo_pedido.html'">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <rect x="2" y="2" width="12" height="12" rx="1.5"/>
+                    <path d="M8 5v6M5 8h6"/>
+                </svg>
+                Novo pedido
+            </button>
+
+            <button type="button" class="menu" onclick="window.location.href='historico.html'">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M2 12L5 8l3 3 3-5 3 2"/>
+                </svg>
+                Histórico e relatórios
+            </button>
+        </nav>
+
+    </aside>
+
+    <main class="content">
+
+        <header class="top">
+            <h1>Novo pedido</h1>
+            <span class="data-atual" id="data-atual">Carregando...</span>
+        </header>
+
+        <section id="secao-dados-cliente" class="card">
+            <h3>Dados do cliente</h3>
+            
+            <div class="row">
+                <div class="form-group flex-2">
+                    <label>Nome completo</label>
+                    <input type="text" id="nome" name="cliente_nome" placeholder="Ex: João Silva" autocomplete="off">
+                </div>
+                
+                <div class="form-group flex-1">
+                    <label>Telefone</label>
+                <input type="tel" id="telefone" name="cliente_telefone" placeholder="(11) 98455-6594" autocomplete="off">
+                </div>
+                
+                <div class="form-group flex-1">
+                    <label>Forma de pagamento</label>
+                    <select id="pagamento" name="cliente_pagamento">
+                        <option value="dinheiro">Dinheiro</option>
+                        <option value="cartao">Cartão</option>
+                        <option value="pix">Pix</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group flex-full">
+                    <label>Endereço de entrega</label>
+                    <input type="text" id="endereco" name="cliente_endereco" placeholder="Rua, número, bairro, complemento" autocomplete="off">
+                </div>
+            </div>
+        </section>
+
+        <section id="secao-itens-pedido" class="card">
+            
+            <div class="header-itens">
+                <h3>Itens do pedido</h3>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-outline" onclick="adicionarPizza()">+ Pizza</button>
+                    <button type="button" class="btn btn-outline" onclick="adicionarBebida()">+ Bebida</button>
+                </div>
+            </div>
+            
+            <div class="itens-container" id="itens-container">
+                </div>
+            
+            <div class="footer-itens">
+                <div class="total-block">
+                    <span class="total-label">Total do pedido</span>
+                    <span class="total-valor" id="total-valor">R$ 0,00</span>
+                </div>
+                
+                <div class="actions-final">
+                    <button type="button" class="cancel" onclick="limparPedido()">Cancelar</button>            
+                    <button type="button" class="save" onclick="salvarPedido()">Salvar pedido</button>
+                </div>
+            </div>
+            
+        </section>
+
+        <section id="secao-observacoes" class="card">
+            <h3>Observações</h3>
+            <textarea id="obs" name="pedido_observacoes" rows="3" placeholder="Ex: sem cebola, borda recheada, troco para R$100..."></textarea>
+        </section>
+
+    </main>
+
+</div>
+
+<script src="cardapio.js"></script>
+<script src="novo_pedido.js"></script>
+</body>
+</html>

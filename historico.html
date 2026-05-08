@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>A Fornalha - Histórico e Relatórios</title>
+    <link rel="stylesheet" href="historico.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div class="container">
+
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <div class="sidebar-logo-icon">🍕</div>
+            <div>
+                <div class="sidebar-logo-name">A Fornalha Pizzaria</div>
+                <div class="sidebar-logo-sub">Gerenciador de pedidos</div>
+            </div>
+        </div>
+
+        <nav>
+            <span class="menu-label">MENU</span>
+            
+            <button type="button" class="menu" onclick="window.location.href='painel_geral.html'">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="1" width="6" height="6" rx="1"/><rect x="1" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/>
+                </svg> Painel geral
+            </button>
+            
+            <button type="button" class="menu" onclick="window.location.href='pedidos_do_dia.html'">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M2 4h12M2 8h12M2 12h7"/>
+                </svg> 
+                Pedidos do dia
+            </button>
+            
+            <button type="button" class="menu" onclick="window.location.href='novo_pedido.html'">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <rect x="2" y="2" width="12" height="12" rx="1.5"/>
+                    <path d="M8 5v6M5 8h6"/>
+                </svg> 
+                Novo pedido
+            </button>
+            
+            <button type="button" class="menu active" onclick="window.location.href='historico.html'">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M2 12L5 8l3 3 3-5 3 2"/>
+                </svg> 
+                Histórico e relatórios
+            </button>
+        </nav>
+    </aside>
+
+    <main class="content">
+
+        <header class="top header-historico">
+            <div class="top-title">
+                <h1>Histórico e relatórios</h1>
+                <span class="data-atual" id="data-atual">Carregando...</span>
+            </div>
+            <button class="btn btn-outline" onclick="window.location.href='novo_pedido.html'">+ Novo pedido</button>
+        </header>
+
+        <div class="dashboard-grid">
+            
+            <div class="col-left">
+                <section class="card">
+                    <h3>Histórico de pedidos</h3>
+
+                    <section class="card">
+                        <div class="historico-header">
+                            <h3>Histórico de pedidos</h3>
+                            
+                            <div class="filtro-data-container">
+                                <div class="filtro-inputs">
+                                    <label for="data-inicio">De:</label>
+                                    <input type="date" id="data-inicio" class="date-input">
+                                    
+                                    <label for="data-fim">Até:</label>
+                                    <input type="date" id="data-fim" class="date-input">
+                                </div>
+                                
+                                <div class="filtro-botoes">
+                                    <button class="btn-filtrar" onclick="aplicarFiltroData()">Buscar</button>
+                                    <button class="btn-limpar" onclick="limparFiltroData()">Ver Todos</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+
+                    <div class="table-responsive">
+                        <table class="history-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Data e Hora</th>
+                                    <th>Cliente</th>
+                                    <th>Pedido</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabela-pedidos-body">
+                                <tr><td colspan="6" style="text-align: center;">Carregando pedidos...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+
+            <div class="col-right">
+                
+                <section class="card">
+                    <h3>Resumo financeiro</h3>
+                    <div class="finance-grid">
+                        <div class="finance-box">
+                            <span class="finance-label">Faturamento hoje</span>
+                            <span class="finance-valor" id="faturamento-hoje">R$ 0,00</span>
+                        </div>
+                        <div class="finance-box">
+                            <span class="finance-label">Ticket médio</span>
+                            <span class="finance-valor" id="ticket-medio">R$ 0,00</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h3>Itens mais pedidos</h3>
+                    
+                    <div class="top-items-list" id="lista-mais-pedidos">
+                        </div>
+
+                    <section class="card">
+                    <h3>Itens mais pedidos</h3>
+                    
+                    <div class="top-items-list" id="lista-mais-pedidos">
+                        </div>
+
+                    <div style="margin-top: 20px; height: 180px; width: 100%;">
+                        <canvas id="grafico-barras"></canvas>
+                    </div>
+                </section>
+                </section>
+
+            </div>
+        </div>
+
+    </main>
+
+</div>
+
+<script src="historico.js"></script>
+<script src="cardapio.js"></script>
+</body>
+</html>

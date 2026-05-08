@@ -1,0 +1,28 @@
+# Arquivos do Sistema Operacional (Windows / macOS)
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Editores de Código / IDEs (VS Code, IntelliJ, etc)
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Arquivos de Log
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# (Opcional) Chaves e Senhas locais
+# Se você tiver algum arquivo com chaves secretas (ex: .env), descomente a linha abaixo:
+# .env

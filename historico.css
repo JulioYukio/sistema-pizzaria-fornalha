@@ -1,0 +1,374 @@
+/* ==========================================
+   1. GLOBAIS E RESET
+========================================== */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0f0f0f;
+    color: #fff;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+/* ==========================================
+   2. BARRA LATERAL (SIDEBAR)
+========================================== */
+.sidebar {
+    height: 100vh;
+    width: 340px;
+    background-color: #1a1a1a;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 20px 16px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sidebar-logo-icon {
+    width: 56px;
+    height: 56px;
+    background: #c0392b;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.sidebar-logo-name {
+    font-size: 23px;
+    font-weight: 500;
+    color: #fff;
+}
+
+.sidebar-logo-sub {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.4);
+    margin-top: 2px;
+}
+
+.menu-label {
+    display: block;
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 0.08em;
+    padding: 16px 16px 6px;
+}
+
+.menu {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: calc(100% - 16px);
+    margin: 10px 8px;
+    padding: 14px 12px;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 14px;
+    cursor: pointer;
+    text-align: left;
+}
+
+.menu:hover {
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.menu.active {
+    background: #c0392b;
+    color: #fff;
+}
+
+/* ==========================================
+   3. CONTEÚDO E LAYOUT DO DASHBOARD
+========================================== */
+.content {
+    flex: 1;
+    padding: 20px 30px 80px 30px; 
+    overflow-y: auto;
+}
+
+.top {
+    height: 36px;
+    display: flex;
+    margin-bottom: 20px; 
+}
+
+.header-historico {
+    justify-content: space-between;
+    align-items: center;
+}
+
+.top-title {
+    display: flex;
+    align-items: baseline;
+    gap: 30px;
+}
+
+.top h1 {
+    margin: 0; 
+    font-size: 24px; 
+    font-weight: bold;
+}
+
+.data-atual {
+    font-size: 14px;
+    color: #a0a0a0;
+    font-weight: normal;
+}
+
+.btn-outline {
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 13px;
+    background: transparent;
+    border: 1px solid #666;
+    color: #fff;
+}
+
+.card {
+    background: #242424; 
+    padding: 25px;
+    border-radius: 10px; 
+    margin-bottom: 20px; 
+}
+
+.card h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 20px;
+    align-items: start;
+}
+
+/* ==========================================
+   4. TABELAS E SELETOR DE STATUS
+========================================== */
+.table-responsive {
+    overflow-x: auto;
+}
+
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 13px;
+}
+
+/* Adicionado padding-right de 15px para separar as colunas de forma limpa */
+.history-table th {
+    color: #888;
+    font-weight: bold;
+    padding: 0 15px 12px 0; 
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.history-table td {
+    padding: 15px 15px 15px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    color: #fff;
+    font-weight: bold;
+}
+
+.history-table tr:last-child td { border-bottom: none; }
+
+/* Estilo do Botão Seletor de Status */
+.status-select {
+    background: #1a1a1a;
+    border: 1px solid #555;
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: bold;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.2s;
+}
+
+.status-select:hover { border-color: #888; }
+.status-select:focus { border-color: #c0392b; }
+.status-select option { background: #242424; color: #fff; }
+
+/* ==========================================
+   5. RESUMO FINANCEIRO E GRÁFICOS
+========================================== */
+.finance-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.finance-box {
+    background: #1c1c1c; 
+    padding: 15px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.finance-label { font-size: 11px; color: #ccc; font-weight: bold; }
+.finance-valor { font-size: 22px; color: #fff; font-weight: bold; }
+
+.top-items-list {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 30px;
+}
+
+.top-item-row {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.top-item-rank { width: 30px; color: #c0392b; }
+.top-item-name { flex: 1; color: #fff; }
+.top-item-bar-container { width: 80px; height: 4px; background: #333; border-radius: 2px; margin: 0 15px; overflow: hidden; }
+.top-item-bar-fill { height: 100%; background: #c0392b; }
+.top-item-qtd { width: 30px; text-align: right; color: #aaa; }
+
+/* ==========================================
+   6. HEADER DA TABELA E FILTRO DE DATAS
+========================================== */
+
+.historico-header {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Espaço entre o título "Histórico" e os botões */
+    margin-bottom: 30px; /* Empurra a tabela para baixo */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08); /* Linha divisória */
+    padding-bottom: 25px;
+}
+
+.historico-header h3 {
+    margin: 0; /* Remove a margem padrão do h3 para não desalinhar */
+    font-size: 18px;
+}
+
+.filtro-data-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Empurra datas pra esquerda e botões pra direita */
+    background: #1e1e1e; /* Fundo ligeiramente diferente do card */
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid #333;
+    flex-wrap: wrap; /* Para telas menores */
+    gap: 15px;
+}
+
+.filtro-inputs {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.filtro-inputs label {
+    font-size: 13px;
+    color: #888;
+    font-weight: bold;
+}
+
+.date-input {
+    background: #121212; /* Fundo mais escuro que a barra */
+    border: 1px solid #444;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-size: 13px;
+    outline: none;
+    color-scheme: dark;
+    transition: border-color 0.2s;
+}
+
+.date-input:focus {
+    border-color: #c0392b;
+}
+
+/* Botões do Filtro */
+.filtro-botoes {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-filtrar {
+    background: #c0392b;
+    border: 1px solid #c0392b;
+    color: #fff;
+    padding: 8px 20px;
+    border-radius: 5px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-filtrar:hover {
+    background: #a93226;
+}
+
+.btn-limpar {
+    background: transparent;
+    border: 1px solid #555;
+    color: #ccc;
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-limpar:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+}
+
+/* ==========================================
+   7. ANIMAÇÃO DE LOADING
+========================================== */
+.spinner {
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    border-left-color: #c0392b;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: girar 0.8s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes girar {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.tabela-loading {
+    text-align: center;
+    padding: 40px 0 !important;
+    color: #888;
+    font-size: 13px;
+}
