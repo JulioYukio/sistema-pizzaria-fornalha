@@ -2,17 +2,65 @@ let pedidoItens = [];
 let linhaEdicao = null;
 
 function adicionarPizza() {
-    pedidoItens.push({ type: 'pizza', pizzaId: 16, tamanho: "GRANDE", quantidade: 1 });
+    const primeiraSalgada = pizzas.find(p => (p.categoria || 'salgada').toLowerCase() === 'salgada') || pizzas[0];
+    pedidoItens.push({ 
+        type: 'pizza', 
+        pizzaId: primeiraSalgada.id, 
+        tamanho: "GRANDE", 
+        quantidade: 1,
+        categoriaAtiva: 'salgada' 
+    });
     renderizarPedido();
 }
 
 function adicionarBebida() {
-    pedidoItens.push({ type: 'bebida', bebidaId: 1001, quantidade: 1 });
+    const primeiraNaoAlcoolica = bebidas.find(b => (b.categoria || 'nao_alcoolica').toLowerCase() === 'nao_alcoolica') || bebidas[0];
+    pedidoItens.push({ 
+        type: 'bebida', 
+        bebidaId: primeiraNaoAlcoolica.id, 
+        quantidade: 1,
+        categoriaAtiva: 'nao_alcoolica'
+    });
     renderizarPedido();
 }
 
 function removerItem(i) {
     pedidoItens.splice(i, 1);
+    renderizarPedido();
+}
+
+// Troca de Aba para PIZZAS
+function mudarAbaSabor(indexItem, novaCategoria) {
+    pedidoItens[indexItem].categoriaAtiva = novaCategoria;
+    const primeiraDaCategoria = pizzas.find(p => (p.categoria || 'salgada').toLowerCase() === novaCategoria);
+    if (primeiraDaCategoria) {
+        pedidoItens[indexItem].pizzaId = primeiraDaCategoria.id;
+    }
+    renderizarPedido();
+}
+
+// Troca de Aba para BEBIDAS
+function mudarAbaBebida(indexItem, novaCategoria) {
+    pedidoItens[indexItem].categoriaAtiva = novaCategoria;
+    const primeiraDaCategoria = bebidas.find(b => (b.categoria || 'nao_alcoolica').toLowerCase() === novaCategoria);
+    if (primeiraDaCategoria) {
+        pedidoItens[indexItem].bebidaId = primeiraDaCategoria.id;
+    }
+    renderizarPedido();
+}
+
+// Função para mudar a aba automaticamente caso a pizza pesquisada seja de outra categoria
+function selecionarPizza(indexPedido, pizzaId) {
+    if (!pizzaId) return; // Ignora caso clique na opção de instrução "👇 Selecione..."
+
+    pedidoItens[indexPedido].pizzaId = pizzaId;
+    const pizza = pizzas.find(p => p.id == pizzaId);
+    
+    if (pizza) {
+        // Atualiza a aba ativa para a categoria real da pizza selecionada
+        pedidoItens[indexPedido].categoriaAtiva = (pizza.categoria || 'salgada').toLowerCase();
+    }
+    
     renderizarPedido();
 }
 
@@ -24,16 +72,33 @@ function renderizarPedido() {
         let htmlItem = "";
         
         if (item.type === 'pizza') {
-            const pizza = pizzas.find(p => p.id == item.pizzaId) || pizzas[0];
+            const categoriaAtual = item.categoriaAtiva || 'salgada';
+            const pizzasDaCategoria = pizzas.filter(p => (p.categoria || 'salgada').toLowerCase() === categoriaAtual);
+            const pizza = pizzas.find(p => p.id == item.pizzaId) || pizzasDaCategoria[0] || pizzas[0];
             const subtotal = (pizza.preco[item.tamanho] || 0) * item.quantidade;
 
             htmlItem = `
-                <div class="pedido-item" style="border-left: 4px solid #c0392b;">
+                <div class="pedido-item" style="border-left: 4px solid #c0392b; flex-wrap: wrap; padding: 15px; margin-bottom: 15px; background: #141414; border-radius: 6px;">
+                    
+                    <div class="abas-produtos-container" style="display: flex; gap: 6px; width: 100%; margin-bottom: 12px;">
+                        <button type="button" onclick="mudarAbaSabor(${i}, 'salgada')" style="flex: 1; padding: 6px; border-radius: 4px; border: 1px solid #333; font-size: 11px; font-weight: bold; cursor: pointer; background: ${categoriaAtual === 'salgada' ? '#c0392b' : '#222'}; color: #fff;">🔴 Salgadas</button>
+                        <button type="button" onclick="mudarAbaSabor(${i}, 'doce')" style="flex: 1; padding: 6px; border-radius: 4px; border: 1px solid #333; font-size: 11px; font-weight: bold; cursor: pointer; background: ${categoriaAtual === 'doce' ? '#e67e22' : '#222'}; color: #fff;">🍫 Doces</button>
+                        <button type="button" onclick="mudarAbaSabor(${i}, 'light')" style="flex: 1; padding: 6px; border-radius: 4px; border: 1px solid #333; font-size: 11px; font-weight: bold; cursor: pointer; background: ${categoriaAtual === 'light' ? '#27ae60' : '#222'}; color: #fff;">🥗 Light</button>
+                        <button type="button" onclick="mudarAbaSabor(${i}, 'especial')" style="flex: 1; padding: 6px; border-radius: 4px; border: 1px solid #333; font-size: 11px; font-weight: bold; cursor: pointer; background: ${categoriaAtual === 'especial' ? '#9b59b6' : '#222'}; color: #fff;">⭐ Especiais</button>
+                    </div>
+                    
+                    <div class="form-group" style="width: 100%; margin-bottom: 10px;">
+                        <input type="text" placeholder="🔍 Buscar em todo o cardápio por ID, nome ou ingrediente (Pressione ENTER para selecionar)..." 
+                               onkeyup="filtrarPizzasCategoria(event, this, ${i}, '${categoriaAtual}')" autocomplete="off"
+                               style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #444; background: #1c1c1c; color: #fff;">
+                    </div>
+
                     <div class="form-group" style="flex: 2;">
-                        <select onchange="pedidoItens[${i}].pizzaId=this.value; renderizarPedido()">
-                            ${pizzas.map(p => `<option value="${p.id}" ${p.id == item.pizzaId ? "selected" : ""}>${p.id.toString().padStart(2, '0')} - ${p.nome}</option>`).join("")}
+                        <select id="select-pizza-${i}" onchange="selecionarPizza(${i}, this.value)">
+                            ${pizzasDaCategoria.map(p => `<option value="${p.id}" ${p.id == item.pizzaId ? "selected" : ""}>${p.id.toString().padStart(2, '0')} - ${p.nome}</option>`).join("")}
                         </select>
                     </div>
+                    
                     <div class="form-group" style="flex: 1;">
                         <select onchange="pedidoItens[${i}].tamanho=this.value; renderizarPedido()">
                             <option value="BROTO" ${item.tamanho == "BROTO" ? "selected" : ""}>BROTO</option>
@@ -53,14 +118,23 @@ function renderizarPedido() {
                     </div>
                 </div>`;
         } else {
-            const bebida = bebidas.find(b => b.id == item.bebidaId) || bebidas[0];
-            const subtotal = bebida.preco * item.quantidade;
+            // LÓGICA PARA BEBIDAS
+            const categoriaAtual = item.categoriaAtiva || 'nao_alcoolica';
+            const bebidasDaCategoria = bebidas.filter(b => (b.categoria || 'nao_alcoolica').toLowerCase() === categoriaAtual);
+            const bebida = bebidas.find(b => b.id == item.bebidaId) || bebidasDaCategoria[0] || bebidas[0];
+            const subtotal = (bebida.preco || 0) * item.quantidade;
 
             htmlItem = `
-                <div class="pedido-item" style="border-left: 4px solid #3498db;">
+                <div class="pedido-item" style="border-left: 4px solid #3498db; background: #141414; padding: 15px; margin-bottom: 15px; border-radius: 6px; flex-wrap: wrap;">
+                    
+                    <div class="abas-produtos-container" style="display: flex; gap: 6px; width: 100%; margin-bottom: 12px;">
+                        <button type="button" onclick="mudarAbaBebida(${i}, 'nao_alcoolica')" style="flex: 1; padding: 6px; border-radius: 4px; border: 1px solid #333; font-size: 11px; font-weight: bold; cursor: pointer; background: ${categoriaAtual === 'nao_alcoolica' ? '#3498db' : '#222'}; color: #fff;">🥤 Sem Álcool</button>
+                        <button type="button" onclick="mudarAbaBebida(${i}, 'alcoolica')" style="flex: 1; padding: 6px; border-radius: 4px; border: 1px solid #333; font-size: 11px; font-weight: bold; cursor: pointer; background: ${categoriaAtual === 'alcoolica' ? '#f1c40f' : '#222'}; color: #fff;">🍺 Alcoólicas</button>
+                    </div>
+
                     <div class="form-group" style="flex: 3;">
                         <select onchange="pedidoItens[${i}].bebidaId=this.value; renderizarPedido()">
-                            ${bebidas.map(b => `<option value="${b.id}" ${b.id == item.bebidaId ? "selected" : ""}>${b.nome}</option>`).join("")}
+                            ${bebidasDaCategoria.map(b => `<option value="${b.id}" ${b.id == item.bebidaId ? "selected" : ""}>${b.nome}</option>`).join("")}
                         </select>
                     </div>
                     <div class="form-group" style="width: 60px; flex: none;">
@@ -79,15 +153,83 @@ function renderizarPedido() {
     document.getElementById("total-valor").innerText = "R$ " + formatarMoeda(calcularTotal());
 }
 
+// Função de Busca Global que procura por ID, Nome ou Ingredientes
+// 2. FUNÇÃO DE FILTRO GLOBAL COM SELEÇÃO AUTOMÁTICA NO 'ENTER'
+// 2. FUNÇÃO DE FILTRO GLOBAL COM SELEÇÃO AUTOMÁTICA NO 'ENTER' (Visual Limpo)
+function filtrarPizzasCategoria(event, inputElement, indexPedido, categoriaAtiva) {
+    const termoPesquisa = inputElement.value.toLowerCase().trim();
+    const selectPizza = document.getElementById(`select-pizza-${indexPedido}`);
+    
+    // Filtra em todo o cardápio se houver pesquisa, ou apenas na aba se estiver vazio
+    const pizzasFiltradas = pizzas.filter(p => {
+        const pertenceACategoria = (p.categoria || 'salgada').toLowerCase() === categoriaAtiva;
+        const nomeDaPizza = p.nome.toLowerCase();
+        const ingredientesDaPizza = (p.ingredientes || "").toLowerCase(); 
+        const idDaPizza = p.id.toString();
+        
+        if (termoPesquisa !== "") {
+            return idDaPizza === termoPesquisa ||
+                   idDaPizza.includes(termoPesquisa) || 
+                   nomeDaPizza.includes(termoPesquisa) || 
+                   ingredientesDaPizza.includes(termoPesquisa);
+        } else {
+            return pertenceACategoria;
+        }
+    });
+
+    // ====================================================
+    // A MÁGICA DO ENTER: Se apertou Enter e encontrou algo
+    // ====================================================
+    if (event.key === 'Enter' && termoPesquisa !== "") {
+        if (pizzasFiltradas.length > 0) {
+            // Prioriza se o usuário digitou o ID exato, senão pega o primeiro resultado
+            let pizzaEscolhida = pizzasFiltradas[0];
+            const pizzaPorId = pizzasFiltradas.find(p => p.id.toString() === termoPesquisa);
+            if (pizzaPorId) {
+                pizzaEscolhida = pizzaPorId;
+            }
+            
+            // Chama a função de selecionar, que troca a aba e redesenha a tela!
+            selecionarPizza(indexPedido, pizzaEscolhida.id);
+            return; 
+        }
+    }
+
+    // Se não for Enter, desenha o dropdown com os resultados
+    selectPizza.innerHTML = "";
+
+    if (pizzasFiltradas.length === 0) {
+        selectPizza.innerHTML = `<option value="">Nenhuma pizza encontrada...</option>`;
+    } else {
+        
+        pizzasFiltradas.forEach((p, index) => {
+            // Se estiver a pesquisar, a primeira pizza encontrada fica imediatamente visível na caixa
+            // Se a pesquisa estiver vazia, mostra a pizza que já estava selecionada no pedido
+            let isSelected = "";
+            if (termoPesquisa !== "") {
+                isSelected = (index === 0) ? "selected" : "";
+            } else {
+                isSelected = (p.id == pedidoItens[indexPedido].pizzaId) ? "selected" : "";
+            }
+            
+            const tagCategoria = (p.categoria || 'salgada').toLowerCase() !== categoriaAtiva && termoPesquisa !== "" 
+                ? ` [${(p.categoria || 'SALGADA').toUpperCase()}]` 
+                : "";
+                
+            selectPizza.innerHTML += `<option value="${p.id}" ${isSelected}>${p.id.toString().padStart(2, '0')} - ${p.nome}${tagCategoria}</option>`;
+        });
+    }
+}
+
 function calcularTotal() {
     let total = 0;
     pedidoItens.forEach(item => {
         if (item.type === 'pizza') {
             const p = pizzas.find(x => x.id == item.pizzaId);
-            total += (p.preco[item.tamanho] || 0) * item.quantidade;
+            if (p) total += (p.preco[item.tamanho] || 0) * item.quantidade;
         } else {
             const b = bebidas.find(x => x.id == item.bebidaId);
-            total += (b.preco || 0) * item.quantidade;
+            if (b) total += (b.preco || 0) * item.quantidade;
         }
     });
     return total;
@@ -119,7 +261,9 @@ async function salvarPedido() {
     btnSalvar.disabled = true;
 
     const payload = {
-        action: linhaEdicao ? "update" : "save", // A MÁGICA ESTÁ AQUI
+        token: "Fornalha_USCS_2026!Sec", // Tem de ser igual ao do Apps Script
+        action: "save",
+        action: linhaEdicao ? "update" : "save",
         linha: linhaEdicao,
         data: new Date().toLocaleString(),
         nome, telefone, endereco, pagamento, obs,
@@ -175,21 +319,24 @@ function atualizarData() {
 }
 
 const inputTelefone = document.getElementById("telefone");
-inputTelefone.addEventListener('input', function (e) {
-    let v = e.target.value.replace(/\D/g, "").substring(0, 11); 
-    if (v.length > 0) v = v.replace(/^(\d{2})(\d)/g, "($1) $2").replace(/(\d)(\d{4})$/, "$1-$2");
-    e.target.value = v;
-});
+if (inputTelefone) {
+    inputTelefone.addEventListener('input', function (e) {
+        let v = e.target.value.replace(/\D/g, "").substring(0, 11); 
+        if (v.length > 0) v = v.replace(/^(\d{2})(\d)/g, "($1) $2").replace(/(\d)(\d{4})$/, "$1-$2");
+        e.target.value = v;
+    });
+}
 
 const inputNome = document.getElementById("nome");
-inputNome.addEventListener('input', function (e) {
-    e.target.value = e.target.value.replace(/[^a-zA-ZáàãâéèêíïóôõöúçñÁÀÃÂÉÈÊÍÏÓÔÕÖÚÇÑ ]/g, "");
-});
+if (inputNome) {
+    inputNome.addEventListener('input', function (e) {
+        e.target.value = e.target.value.replace(/[^a-zA-ZáàãâéèêíïóôõöúçñÁÀÃÂÉÈÊÍÏÓÔÕÖÚÇÑ ]/g, "");
+    });
+}
 
 window.onload = () => {
     atualizarData(); 
     
-    // VERIFICA SE TEM UM PEDIDO PARA EDITAR NA MEMÓRIA
     const dadosEdicao = localStorage.getItem('pedidoEmEdicao');
     if (dadosEdicao) {
         const pedido = JSON.parse(dadosEdicao);
@@ -203,14 +350,22 @@ window.onload = () => {
         
         try {
             pedidoItens = typeof pedido.itens === 'string' ? JSON.parse(pedido.itens) : pedido.itens;
+            
+            pedidoItens.forEach(item => {
+                if (item.type === 'pizza') {
+                    const pizzaSalva = pizzas.find(p => p.id == item.pizzaId);
+                    item.categoriaAtiva = pizzaSalva ? (pizzaSalva.categoria || 'salgada').toLowerCase() : 'salgada';
+                } else if (item.type === 'bebida') {
+                    const bebidaSalva = bebidas.find(b => b.id == item.bebidaId);
+                    item.categoriaAtiva = bebidaSalva ? (bebidaSalva.categoria || 'nao_alcoolica').toLowerCase() : 'nao_alcoolica';
+                }
+            });
         } catch(e) { pedidoItens = []; }
         
         renderizarPedido();
-        
-        document.querySelector('.top h1').textContent = "Editar Pedido #" + pedido.idExibicao;
+        document.querySelector('.top h1').textContent = "Editar Pedido #" + (pedido.idExibicao || pedido.linha);
         document.querySelector('.save').textContent = "Atualizar pedido";
-        
-        localStorage.removeItem('pedidoEmEdicao'); // Limpa a memória para o próximo
+        localStorage.removeItem('pedidoEmEdicao');
     } else {
         adicionarPizza(); 
     }
